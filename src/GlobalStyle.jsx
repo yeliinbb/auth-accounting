@@ -8,6 +8,7 @@ const GlobalStyle = createGlobalStyle`
     font-family: aktiv-grotesk-georgian, sans-serif;
     font-style: normal;
     color: #474845;
+    
     }
 
     body {
@@ -41,7 +42,18 @@ const GlobalStyle = createGlobalStyle`
      a {
         text-decoration: none;
      }
+     button {
+        background: inherit;
+        border: none;
+        box-shadow: none;
+        border-radius: 0;
+        padding: 0;
+        overflow: visible;
+        }
 
+        * {
+        box-sizing: border-box;
+        }
 
 `;
 

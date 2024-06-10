@@ -18,7 +18,7 @@ const MonthNameList = [
   "December",
 ];
 
-const MonthsList = () => {
+const MonthsNavigation = () => {
   const dispatch = useDispatch();
   const monthFiltered = useSelector((state) => state.monthFiltered);
 
@@ -52,7 +52,7 @@ const MonthsList = () => {
   );
 };
 
-export default MonthsList;
+export default MonthsNavigation;
 
 const StSection = styled.section`
   background-color: #f6f5f4;

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import ExpenseListByMonth from "../components/ExpenseListByMonth";
 import Form from "../components/Form";
-import MonthsList from "../components/MonthList";
+import MonthsNavigation from "../components/MonthsNavigation";
 
 const Home = () => {
   return (
@@ -11,7 +11,7 @@ const Home = () => {
       </header>
       <StMain>
         <Form />
-        <MonthsList />
+        <MonthsNavigation />
         <ExpenseListByMonth />
       </StMain>
     </>
