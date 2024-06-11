@@ -1,5 +1,5 @@
-import { createGlobalStyle } from "styled-components";
-import reset from "styled-reset";
+import { createGlobalStyle } from 'styled-components';
+import reset from 'styled-reset';
 
 const GlobalStyle = createGlobalStyle`
     ${reset}
@@ -8,7 +8,7 @@ const GlobalStyle = createGlobalStyle`
     font-family: aktiv-grotesk-georgian, sans-serif;
     font-style: normal;
     color: #474845;
-    
+    box-sizing: border-box;
     }
 
     body {
@@ -22,22 +22,6 @@ const GlobalStyle = createGlobalStyle`
         justify-content: center;
     }
 
-    header {
-        background-color: #f6f5f4;
-        width: 1200px;
-        /* h1 세로축 가운데 정렬 하드 코딩 */
-        height: 70px;
-        padding-top: 7px;
-        box-sizing: border-box;
-        /*  */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 10px;
-        border-radius: 15px;
-        font-size: 45px;
-        font-weight: 600;
-    }
     /* Link 컴포넌트 텍스트 밑줄 제거 */
      a {
         text-decoration: none;
@@ -51,9 +35,25 @@ const GlobalStyle = createGlobalStyle`
         overflow: visible;
         }
 
-        * {
-        box-sizing: border-box;
+        .ModalOverlay {
+            background-color: rgba(0, 0, 0, 0.5);
         }
+
+        .ModalContent {
+            top: 50%;
+            left: 50%;
+            right: auto;
+            bottom: auto;
+            margin-right: -50%;
+            transform: translate(-50%, -50%);
+            position: absolute;
+            background: white;
+            border-radius: 4px;
+            padding: 20px;
+            max-width: 500px;
+            width: 100%;
+        }
+
 
 `;
 

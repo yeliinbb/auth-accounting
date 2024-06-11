@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const TextInput = ({ type, htmlFor, name, placeholder }) => {
   return (
@@ -24,7 +24,7 @@ const StLabel = styled.label`
 
 const StInput = styled.input`
   border: none;
-  width: 200px;
+  width: 190px;
   height: 30px;
   border-radius: 5px;
   padding: 0px 7px;
