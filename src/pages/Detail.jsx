@@ -1,9 +1,11 @@
-import { useEffect, useRef } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import { useEffect, useRef } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
-import { useDispatch, useSelector } from "react-redux";
-import { deleteExpense, updateExpense } from "../redux/slices/expenseSlice";
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteExpense, updateExpense } from '../redux/slices/expenseSlice';
+import { QueryClient, useMutation } from '@tanstack/react-query';
+import { putExpense } from '../api/expense';
 
 const Detail = () => {
   const dispatch = useDispatch();
@@ -11,7 +13,16 @@ const Detail = () => {
   const params = useParams();
   // 기존 데이터 가져와서 각각 defaultValue에 넣어주기
   const prevData = expenseList.find((item) => item.id === params.id);
+  const queryClient = new QueryClient();
   const navigate = useNavigate();
+
+  const mutationEdit = useMutation({
+    mutationFn: putExpense,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['expense']);
+      navigate('/');
+    }
+  });
 
   // 수정되는 값 반영을 위한 useRef 사용
   const dateRef = useRef(null);
@@ -32,19 +43,19 @@ const Detail = () => {
       date: updatedDate,
       item: updatedItem,
       amount: Number(updatedAmount),
-      description: updatedDescription,
+      description: updatedDescription
     };
-    dispatch(updateExpense(updatedList));
-    navigate("/");
+    // dispatch(updateExpense(updatedList));
+    mutationEdit.mutation(updatedList);
   };
 
   const expenseDelete = () => {
-    if (confirm("정말로 이 항목을 삭제하시겠습니까?")) {
+    if (confirm('정말로 이 항목을 삭제하시겠습니까?')) {
       dispatch(deleteExpense(prevData));
-      localStorage.getItem("filteredByMonth");
-      navigate("/");
+      localStorage.getItem('filteredByMonth');
+      navigate('/');
     } else {
-      alert("삭제가 취소되었습니다.");
+      alert('삭제가 취소되었습니다.');
     }
   };
 
@@ -56,33 +67,13 @@ const Detail = () => {
     <StDetailSection>
       <StDetailInputBox>
         <StDetailLabel htmlFor="detail-date">Date</StDetailLabel>
-        <StDetailInput
-          type="date"
-          id="detail-date"
-          defaultValue={prevData.date}
-          ref={dateRef}
-        />
+        <StDetailInput type="date" id="detail-date" defaultValue={prevData.date} ref={dateRef} />
         <StDetailLabel htmlFor="detail-item">Item</StDetailLabel>
-        <StDetailInput
-          type="text"
-          id="detail-item"
-          defaultValue={prevData.item}
-          ref={itemRef}
-        />
+        <StDetailInput type="text" id="detail-item" defaultValue={prevData.item} ref={itemRef} />
         <StDetailLabel htmlFor="detail-amount">Amount</StDetailLabel>
-        <StDetailInput
-          type="number"
-          id="detail-amount"
-          defaultValue={prevData.amount}
-          ref={amountRef}
-        />
+        <StDetailInput type="number" id="detail-amount" defaultValue={prevData.amount} ref={amountRef} />
         <StDetailLabel htmlFor="detail-description">Details</StDetailLabel>
-        <StDetailInput
-          type="text"
-          id="detail-description"
-          defaultValue={prevData.description}
-          ref={descriptionRef}
-        />
+        <StDetailInput type="text" id="detail-description" defaultValue={prevData.description} ref={descriptionRef} />
       </StDetailInputBox>
       <StDetailBtnBox>
         <StDetailBtn $backgroundColor="#F0AD4E" onClick={expenseUpdate}>

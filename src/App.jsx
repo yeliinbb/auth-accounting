@@ -6,6 +6,10 @@ import Login from './pages/LoginPage/Login';
 import router from './router/router';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useSelector } from 'react-redux';
+import ReactModal from 'react-modal';
+
+ReactModal.setAppElement('#root');
 
 const App = () => {
   return (

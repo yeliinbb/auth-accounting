@@ -1,21 +1,21 @@
-import { useEffect } from "react";
-import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
-import { setMonth } from "../redux/slices/monthFilteredSlice";
+import { useEffect } from 'react';
+import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { setMonth } from '../redux/slices/monthFilteredSlice';
 
 const MonthNameList = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December'
 ];
 
 const MonthsNavigation = () => {
@@ -23,27 +23,31 @@ const MonthsNavigation = () => {
   const monthFiltered = useSelector((state) => state.monthFiltered);
 
   // 새로고침됐을 때 로컬스토지지에 있는 선택된 달에 맞는 데이터 가져오기
+  // useEffect(() => {
+  //   if (monthFiltered) {
+  //     JSON.parse(localStorage.getItem("filteredByMonth"));
+  //   }
+  // }, []);
+
+  // 새로고침됐을 때 로컬스토지지에 있는 선택된 달에 맞는 데이터 가져오기
   useEffect(() => {
-    if (monthFiltered) {
-      JSON.parse(localStorage.getItem("filteredByMonth"));
+    const storedMonth = localStorage.getItem('filteredByMonth');
+    if (storedMonth) {
+      dispatch(setMonth(JSON.parse(storedMonth)));
     }
-  }, []);
+  }, [dispatch]);
 
   // 클릭했을 때 해당 달 내역만 화면에 보여주기 위해 index 사용
   const handleClick = (index) => {
     dispatch(setMonth(index));
-    localStorage.setItem("filteredByMonth", index);
+    localStorage.setItem('filteredByMonth', index);
   };
 
   return (
     <StSection>
       {MonthNameList.map((month, index) => {
         return (
-          <StMonthBox
-            $active={monthFiltered === index}
-            key={month}
-            onClick={() => handleClick(index)}
-          >
+          <StMonthBox $active={monthFiltered === index} key={month} onClick={() => handleClick(index)}>
             {month}
           </StMonthBox>
         );
@@ -67,7 +71,7 @@ const StSection = styled.section`
 `;
 
 const StMonthBox = styled.div`
-  background-color: ${(props) => (props.$active ? "#FFA07A" : "#80918e")};
+  background-color: ${(props) => (props.$active ? '#FFA07A' : '#80918e')};
   color: #f8f2eb;
   font-weight: 600;
   text-align: center;
@@ -75,8 +79,7 @@ const StMonthBox = styled.div`
   padding: 15px 20px;
   border-radius: 10px;
   cursor: pointer;
-  box-shadow: ${(props) =>
-    props.$active ? "0px 0px 10px 2px rgba(0, 0, 0, 0.2);" : "none"};
+  box-shadow: ${(props) => (props.$active ? '0px 0px 10px 2px rgba(0, 0, 0, 0.2);' : 'none')};
   &:hover {
     transition: 0.15s;
     box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.2);

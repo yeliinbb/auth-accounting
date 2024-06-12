@@ -22,6 +22,12 @@ const GlobalStyle = createGlobalStyle`
         justify-content: center;
     }
 
+    #root {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
     /* Link 컴포넌트 텍스트 밑줄 제거 */
      a {
         text-decoration: none;

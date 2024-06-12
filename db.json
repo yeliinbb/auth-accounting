@@ -1,28 +1,4 @@
 {
-  "register": [
-    {
-      "id": "3",
-      "password": "3",
-      "username": "3333",
-      "isLogin": true
-    },
-    {
-      "id": "1",
-      "password": "1",
-      "username": "1",
-      "isLogin": true
-    }
-  ],
-  "login": [
-    {
-      "id": "3",
-      "password": "3"
-    },
-    {
-      "id": "3",
-      "password": "3"
-    }
-  ],
   "expenses": [
     {
       "id": "46869445-5f9c-4650-941f-41bd9457bc07",
@@ -86,6 +62,22 @@
       "amount": 100000,
       "description": "세광양대창",
       "createdBy": "Me"
+    },
+    {
+      "id": "0222c69b-eb5f-8cd1-04ff-99feb42ae82f",
+      "date": "2024-05-28",
+      "item": "식비",
+      "amount": 1,
+      "description": "1",
+      "createBy": "yelini96"
+    },
+    {
+      "id": "0189b3bd-2225-b75c-a054-94dbf8987ee2",
+      "date": "2024-05-28",
+      "item": "식비",
+      "amount": 2,
+      "description": "2",
+      "createBy": "yelini96"
     }
   ]
 }

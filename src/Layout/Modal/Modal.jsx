@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeModal } from '../../redux/slices/modalSlice';
 import ReactModal from 'react-modal';
+import { updateProfile } from '../../api/auth';
+import { useState } from 'react';
 
 // const StyledModalOverlay = styled.div`
 //   background-color: rgba(0, 0, 0, 0.5);
@@ -23,11 +25,22 @@ import ReactModal from 'react-modal';
 // `;
 
 const Modal = () => {
+  const [nickname, setNickname] = useState('');
+  const [avatar, setAvatar] = useState(null);
   const dispatch = useDispatch();
   const isOpen = useSelector((state) => state.modal.isOpen);
 
   const handleClose = () => {
     dispatch(closeModal());
+  };
+
+  const handleUpdateProfile = async () => {
+    const formData = new FormData();
+    console.log(formData);
+    formData.append('nickname', nickname);
+    formData.append('avatar', avatar);
+    await updateProfile(formData);
+    handleClose();
   };
 
   return (
@@ -59,14 +72,25 @@ const Modal = () => {
     >
       <StModalBox>
         <StModalInputBox>
-          <label htmlFor="profile-username">Change your username</label>
-          <StModalInputField id="profile-username" type="text" placeholder="username" />
+          <label htmlFor="profile-nickname">Change your username</label>
+          <StModalInputField
+            id="profile-nickname"
+            type="text"
+            placeholder="nickname"
+            value={nickname}
+            onChange={(e) => setNickname(e.target.value)}
+          />
         </StModalInputBox>
         <StModalInputBox>
           <label htmlFor="profile-img">Profile Image</label>
-          <StModalImgInputField type="file" accept="img/*" id="profile-img" />
+          <StModalImgInputField
+            type="file"
+            accept="image/*"
+            id="profile-img"
+            onChange={(e) => setAvatar(e.target.files[0])}
+          />
         </StModalInputBox>
-        <StModalBtn>Update Profile</StModalBtn>
+        <StModalBtn onClick={handleUpdateProfile}>Update Profile</StModalBtn>
       </StModalBox>
     </ReactModal>
   );

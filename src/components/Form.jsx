@@ -3,14 +3,27 @@ import TextInput from './TextInput';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { addExpense } from '../redux/slices/expenseSlice';
+import { QueryClient, useMutation } from '@tanstack/react-query';
+import { postExpense } from '../api/expense';
+import { useNavigate } from 'react-router-dom';
 
 const Form = () => {
   const monthFiltered = useSelector((state) => state.monthFiltered);
-  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.user);
+  const queryClient = new QueryClient();
+  const navigate = useNavigate();
+
+  const mutation = useMutation({
+    mutationFn: postExpense,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['expense']);
+      navigate(0);
+    }
+  });
 
   // 새로운 리스트를 추가하는 함수
   const addList = (nextList) => {
-    dispatch(addExpense(nextList));
+    mutation.mutate(nextList);
   };
 
   // 폼이 제출됐을 때 데이터 저장
@@ -28,7 +41,8 @@ const Form = () => {
       date,
       item,
       amount: Number(amount),
-      description
+      description,
+      createBy: user.userId
     };
 
     if (!date || !item || !amount || !description) {
