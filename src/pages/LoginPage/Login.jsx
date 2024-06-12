@@ -1,13 +1,14 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { StForm, StInputBox, StInputField, StLoginBtn, StSignUpBtn } from './Login.Styled';
+import { StForm, StInputBox, StBtnBox, StInputField, StLoginBtn, StSignUpBtn } from './Login.Styled';
 import { faFingerprint, faUnlock } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../redux/slices/userSlice';
 import { login, register } from '../../api/auth';
+import defaultImg from '../../assets/default-profile.jpg';
 
 const Login = () => {
   const [formData, setFormData] = useState({ id: '', password: '', nickname: '' });
@@ -39,7 +40,7 @@ const Login = () => {
       return;
     }
 
-    const response = await register({ ...formData });
+    const response = await register({ ...formData, avatar: defaultImg });
     if (response) {
       navigate('/home');
       setFormData({ id: '', password: '', nickname: '' });
@@ -67,6 +68,7 @@ const Login = () => {
   return (
     <div>
       <StForm>
+        {isLoginForm ? <h1>Login</h1> : <h1>Sign Up</h1>}
         <StInputBox>
           <FontAwesomeIcon icon={faFingerprint} />
           <StInputField type="text" placeholder="id" onChange={handleChange} name="id" value={formData.id} />
@@ -94,23 +96,23 @@ const Login = () => {
           </StInputBox>
         )}
         {isLoginForm ? (
-          <StInputBox>
+          <StBtnBox>
             <StLoginBtn type="submit" onClick={onSubmitLogin}>
               Login
             </StLoginBtn>
             <StSignUpBtn type="submit" onClick={toggleForm}>
               Sign up
             </StSignUpBtn>
-          </StInputBox>
+          </StBtnBox>
         ) : (
-          <StInputBox>
+          <StBtnBox>
             <StLoginBtn type="submit" onClick={toggleForm}>
               Login
             </StLoginBtn>
             <StSignUpBtn type="submit" onClick={onSubmitRegister}>
               Sign up
             </StSignUpBtn>
-          </StInputBox>
+          </StBtnBox>
         )}
       </StForm>
     </div>

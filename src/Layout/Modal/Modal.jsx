@@ -4,6 +4,8 @@ import { closeModal } from '../../redux/slices/modalSlice';
 import ReactModal from 'react-modal';
 import { updateProfile } from '../../api/auth';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { setUser } from '../../redux/slices/userSlice';
 
 // const StyledModalOverlay = styled.div`
 //   background-color: rgba(0, 0, 0, 0.5);
@@ -27,8 +29,9 @@ import { useState } from 'react';
 const Modal = () => {
   const [nickname, setNickname] = useState('');
   const [avatar, setAvatar] = useState(null);
-  const dispatch = useDispatch();
   const isOpen = useSelector((state) => state.modal.isOpen);
+  const user = useSelector((state) => state.user.user);
+  const dispatch = useDispatch();
 
   const handleClose = () => {
     dispatch(closeModal());
@@ -39,7 +42,17 @@ const Modal = () => {
     console.log(formData);
     formData.append('nickname', nickname);
     formData.append('avatar', avatar);
-    await updateProfile(formData);
+    const response = await updateProfile(formData);
+    console.log('response : 프로필 업데이트 성공', response);
+    if (response.success) {
+      dispatch(
+        setUser({
+          ...user,
+          nickname: response.nickname,
+          avatar: response.avatar
+        })
+      );
+    }
     handleClose();
   };
 

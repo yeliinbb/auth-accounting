@@ -3,24 +3,45 @@ import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteExpense, updateExpense } from '../redux/slices/expenseSlice';
-import { QueryClient, useMutation } from '@tanstack/react-query';
-import { putExpense } from '../api/expense';
+import { updateExpense } from '../redux/slices/expenseSlice';
+import { QueryClient, useMutation, useQuery } from '@tanstack/react-query';
+import { deleteExpense, getExpense, putExpense } from '../api/expense';
+import { toast } from 'react-toastify';
 
 const Detail = () => {
-  const dispatch = useDispatch();
-  const expenseList = useSelector((state) => state.expenseList);
-  const params = useParams();
-  // 기존 데이터 가져와서 각각 defaultValue에 넣어주기
-  const prevData = expenseList.find((item) => item.id === params.id);
-  const queryClient = new QueryClient();
   const navigate = useNavigate();
+  const { id } = useParams();
+  const queryClient = new QueryClient();
+
+  // 데이터 가져오기
+  const {
+    data: selectedExpense,
+    isLoading,
+    error,
+    isSuccess,
+    refetch
+  } = useQuery({ queryKey: ['expense', id], queryFn: getExpense });
+  console.log(selectedExpense);
+  console.log(error);
+  console.log(isSuccess);
+  // refetch();
+
+  // 기존 데이터 가져와서 각각 defaultValue에 넣어주기
+  const prevData = isSuccess ? selectedExpense.find((item) => item.id === id) : {};
+  console.log(prevData);
 
   const mutationEdit = useMutation({
     mutationFn: putExpense,
     onSuccess: () => {
+      navigate('/home');
       queryClient.invalidateQueries(['expense']);
-      navigate('/');
+    }
+  });
+
+  const mutationDelete = useMutation({
+    mutationFn: deleteExpense,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['expense']);
     }
   });
 
@@ -45,36 +66,43 @@ const Detail = () => {
       amount: Number(updatedAmount),
       description: updatedDescription
     };
-    // dispatch(updateExpense(updatedList));
-    mutationEdit.mutation(updatedList);
+
+    console.log(updatedList);
+    mutationEdit.mutate(updatedList);
+    toast.success('수정이 완료되었습니다.');
   };
 
   const expenseDelete = () => {
     if (confirm('정말로 이 항목을 삭제하시겠습니까?')) {
-      dispatch(deleteExpense(prevData));
+      console.log(id);
+      mutationDelete.mutate(prevData.id);
       localStorage.getItem('filteredByMonth');
-      navigate('/');
+      navigate('/home');
     } else {
-      alert('삭제가 취소되었습니다.');
+      toast.warn('삭제가 취소되었습니다.');
     }
   };
 
   useEffect(() => {
-    dateRef.current.focus();
+    if (isSuccess) {
+      dateRef.current.focus();
+    }
   }, []);
 
   return (
     <StDetailSection>
-      <StDetailInputBox>
-        <StDetailLabel htmlFor="detail-date">Date</StDetailLabel>
-        <StDetailInput type="date" id="detail-date" defaultValue={prevData.date} ref={dateRef} />
-        <StDetailLabel htmlFor="detail-item">Item</StDetailLabel>
-        <StDetailInput type="text" id="detail-item" defaultValue={prevData.item} ref={itemRef} />
-        <StDetailLabel htmlFor="detail-amount">Amount</StDetailLabel>
-        <StDetailInput type="number" id="detail-amount" defaultValue={prevData.amount} ref={amountRef} />
-        <StDetailLabel htmlFor="detail-description">Details</StDetailLabel>
-        <StDetailInput type="text" id="detail-description" defaultValue={prevData.description} ref={descriptionRef} />
-      </StDetailInputBox>
+      {isSuccess && (
+        <StDetailInputBox>
+          <StDetailLabel htmlFor="detail-date">Date</StDetailLabel>
+          <StDetailInput type="date" id="detail-date" defaultValue={prevData.date} ref={dateRef} />
+          <StDetailLabel htmlFor="detail-item">Item</StDetailLabel>
+          <StDetailInput type="text" id="detail-item" defaultValue={prevData.item} ref={itemRef} />
+          <StDetailLabel htmlFor="detail-amount">Amount</StDetailLabel>
+          <StDetailInput type="number" id="detail-amount" defaultValue={prevData.amount} ref={amountRef} />
+          <StDetailLabel htmlFor="detail-description">Details</StDetailLabel>
+          <StDetailInput type="text" id="detail-description" defaultValue={prevData.description} ref={descriptionRef} />
+        </StDetailInputBox>
+      )}
       <StDetailBtnBox>
         <StDetailBtn $backgroundColor="#F0AD4E" onClick={expenseUpdate}>
           Edit

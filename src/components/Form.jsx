@@ -1,8 +1,7 @@
 import uuid from 'react-uuid';
 import TextInput from './TextInput';
 import styled from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
-import { addExpense } from '../redux/slices/expenseSlice';
+import { useSelector } from 'react-redux';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { postExpense } from '../api/expense';
 import { useNavigate } from 'react-router-dom';

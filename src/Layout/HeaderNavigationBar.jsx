@@ -17,11 +17,13 @@ const HeaderNavigationBar = () => {
 
   const user = useSelector((state) => state.user.user);
 
+  // 로그인 여부를 확인하는 로직
   useEffect(() => {
+    // 액세스토큰이 있다면 회원 정보 불러오고
     getUserInfo().then((response) => {
-      console.log('현재 로그인된 유저가 있나요?', response);
+      console.log('현재 로그인 된 유저가 있나요?', response);
       if (response) {
-        // 여기서 이 값을 왜 한 번 더 넣어주는지?
+        // user 상테에 업데이트 해주기
         dispatch(
           setUser({
             userId: response.id,
@@ -46,19 +48,19 @@ const HeaderNavigationBar = () => {
   return (
     <StHeader>
       <StHeaderBox>
-        <StHeaderH1>ACCOUNTING BOOK</StHeaderH1>
+        <h1>ACCOUNTING BOOK</h1>
       </StHeaderBox>
       {user && (
         <StHeaderBox>
           <Link to="/home">
-            <StHeaderSpan>HOME</StHeaderSpan>
+            <span>HOME</span>
           </Link>
-          <StHeaderSpan>My Profile</StHeaderSpan>
+          <span>My Profile</span>
           <StModalBtn onClick={handleOpen}>
-            <StHeaderImg src={user.avatar} alt={defaultImg} />
+            <img src={user ? user.avatar : defaultImg} />
           </StModalBtn>
           <Modal />
-          <StHeaderSpan>{user.nickname}</StHeaderSpan>
+          <span>{user.nickname}</span>
           <StHeaderBtn onClick={handleLogout}>Logout</StHeaderBtn>
         </StHeaderBox>
       )}
@@ -73,7 +75,7 @@ const StHeader = styled.header`
   background-color: #474845;
   color: white;
   width: 1200px;
-  height: 70px;
+  height: 90px;
   padding: 0px 30px;
   box-sizing: border-box;
   display: flex;
@@ -84,23 +86,36 @@ const StHeader = styled.header`
   font-size: 16px;
 `;
 
-const StHeaderSpan = styled.span`
-  font-size: 18px;
-  font-weight: 600;
-  color: white;
-`;
-
-const StHeaderH1 = styled.h1`
-  font-size: 45px;
-  font-weight: 600;
-  color: white;
-`;
-
 const StHeaderBox = styled.div`
   display: flex;
   gap: 20px;
   align-items: center;
   color: white;
+
+  h1 {
+    font-size: 45px;
+    font-weight: 600;
+    color: white;
+    /* 중앙 정렬 맞춰주기 하드코딩 */
+    margin-top: 8px;
+  }
+
+  span {
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    text-decoration: none;
+  }
+
+  span:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  span:nth-child(3):hover {
+    cursor: default;
+    text-decoration: none;
+  }
 `;
 
 const StModalBtn = styled.button`
@@ -108,12 +123,13 @@ const StModalBtn = styled.button`
   height: 40px;
   cursor: pointer;
   transform: scale(1.1);
-`;
-const StHeaderImg = styled.img`
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  transform: scale(1.1);
+
+  img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    transform: scale(1.1);
+  }
 `;
 
 const StHeaderBtn = styled.button`

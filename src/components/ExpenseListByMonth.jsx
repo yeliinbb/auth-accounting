@@ -1,9 +1,6 @@
 import styled from 'styled-components';
 import Expense from './Expense';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { setExpense } from '../redux/slices/expenseSlice';
-import { expenseApi } from '../api/api';
 import { useQuery } from '@tanstack/react-query';
 import { getExpense } from '../api/expense';
 
@@ -14,15 +11,7 @@ const ExpenseListByMonth = () => {
   // 데이터 가져오기
   const { data: expense = [], isLoading, error } = useQuery({ queryKey: ['expense'], queryFn: getExpense });
 
-  // console.log('isLoading => ', isLoading);
   console.log('expense => ', expense);
-
-  useEffect(() => {
-    expenseApi.get('/expenses').then((response) => {
-      // console.log(response.data);
-      dispatch(setExpense(response.data));
-    });
-  }, []);
 
   // 저장된 데이터 중에서 선택한 달과 맞는 데이터 가져오기 -> getMonth()
   const filtered = expense.filter((expense) => new Date(expense.date).getMonth() === monthFiltered);
@@ -30,6 +19,7 @@ const ExpenseListByMonth = () => {
   if (isLoading) {
     return <div>로딩중 입니다.</div>;
   }
+
   return (
     <StUl>
       {filtered.length > 0 ? (

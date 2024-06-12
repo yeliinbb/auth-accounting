@@ -6,10 +6,14 @@ export const StForm = styled.div`
   padding: 30px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  /* align-items: center; */
+  gap: 10px;
   font-size: 20px;
   font-weight: 600;
   border-radius: 15px;
+  h1 {
+    text-align: center;
+  }
 `;
 
 export const StInputBox = styled.div`
@@ -42,6 +46,14 @@ export const StInputField = styled.input`
   }
 `;
 
+export const StBtnBox = styled.div`
+  width: 200;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+`;
+
 export const StLoginBtn = styled.button`
   width: 100%;
   height: 40px;
@@ -49,7 +61,7 @@ export const StLoginBtn = styled.button`
   border-radius: 50px;
   background-color: #78866b;
   color: white;
-  margin-top: 15px;
+  /* margin-top: 15px; */
   cursor: pointer;
   &:hover {
     opacity: 0.8;
@@ -64,7 +76,7 @@ export const StSignUpBtn = styled.button`
   border-radius: 50px;
   background-color: #474845;
   color: white;
-  margin-top: 15px;
+  /* margin-top: 15px; */
   cursor: pointer;
   &:hover {
     opacity: 0.8;

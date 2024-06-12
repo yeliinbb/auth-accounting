@@ -64,20 +64,11 @@
       "createdBy": "Me"
     },
     {
-      "id": "0222c69b-eb5f-8cd1-04ff-99feb42ae82f",
       "date": "2024-05-28",
       "item": "식비",
       "amount": 1,
-      "description": "1",
-      "createBy": "yelini96"
-    },
-    {
-      "id": "0189b3bd-2225-b75c-a054-94dbf8987ee2",
-      "date": "2024-05-28",
-      "item": "식비",
-      "amount": 2,
-      "description": "2",
-      "createBy": "yelini96"
+      "description": "11111111",
+      "id": "0222c69b-eb5f-8cd1-04ff-99feb42ae82f"
     }
   ]
 }

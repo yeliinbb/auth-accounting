@@ -62,8 +62,7 @@ export const updateProfile = async (formData) => {
       });
       return response.data;
     } catch (error) {
-      //   localStorage.clear();
-      toast.warn('accessToken이 만료되었습니다.');
+      toast.warn('프로필 업데이트에 실패했습니다.');
     }
   }
 };
