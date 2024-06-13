@@ -5,5 +5,5 @@ export const authApi = axios.create({
 });
 
 export const expenseApi = axios.create({
-  baseURL: 'http://localhost:5000/'
+  baseURL: 'https://innovative-petalite-ton.glitch.me'
 });

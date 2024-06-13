@@ -4,14 +4,14 @@ import styled from 'styled-components';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { updateExpense } from '../redux/slices/expenseSlice';
-import { QueryClient, useMutation, useQuery } from '@tanstack/react-query';
+import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { deleteExpense, getExpense, putExpense } from '../api/expense';
 import { toast } from 'react-toastify';
 
 const Detail = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const queryClient = new QueryClient();
+  const queryClient = useQueryClient();
 
   // 데이터 가져오기
   const {

@@ -2,14 +2,14 @@ import uuid from 'react-uuid';
 import TextInput from './TextInput';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
-import { QueryClient, useMutation } from '@tanstack/react-query';
+import { QueryClient, useMutation, useQueryClient } from '@tanstack/react-query';
 import { postExpense } from '../api/expense';
 import { useNavigate } from 'react-router-dom';
 
 const Form = () => {
   const monthFiltered = useSelector((state) => state.monthFiltered);
   const user = useSelector((state) => state.user.user);
-  const queryClient = new QueryClient();
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   const mutation = useMutation({
