@@ -40,9 +40,9 @@ const Login = () => {
       return;
     }
 
-    const response = await register({ ...formData, avatar: defaultImg });
+    const response = await register({ ...formData });
     if (response) {
-      navigate('/home');
+      // navigate('/home');
       setFormData({ id: '', password: '', nickname: '' });
       toast.success('회원가입이 완료되었습니다.');
     }
@@ -54,7 +54,6 @@ const Login = () => {
       id: formData.id,
       password: formData.password
     });
-
     toast.success('로그인 성공!');
     dispatch(setUser({ userId, nickname, avatar }));
     navigate('/home');

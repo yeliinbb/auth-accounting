@@ -8,6 +8,8 @@ export const register = async ({ id, password, nickname }) => {
       password: password,
       nickname: nickname
     });
+    // console.log(id, password, nickname);
+    console.log('회원가입 response 확인', response);
     console.log('회원가입 데이터 확인', response.data);
     return response.data;
   } catch (error) {
@@ -16,11 +18,12 @@ export const register = async ({ id, password, nickname }) => {
   }
 };
 
-export const login = async ({ id, password }) => {
+export const login = async ({ id, password, avatar }) => {
   try {
     const response = await authApi.post('/login?expiresIn=30m', {
       id: id,
-      password: password
+      password: password,
+      avatar: avatar
     });
     console.log('로그인 데이터 확인', response.data);
     localStorage.setItem('accessToken', response.data.accessToken);

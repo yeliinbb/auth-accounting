@@ -57,7 +57,7 @@ const HeaderNavigationBar = () => {
           </Link>
           <span>My Profile</span>
           <StModalBtn onClick={handleOpen}>
-            <img src={user ? user.avatar : defaultImg} />
+            <img src={user.avatar ? user.avatar : defaultImg} />
           </StModalBtn>
           <Modal />
           <span>{user.nickname}</span>
@@ -122,13 +122,15 @@ const StModalBtn = styled.button`
   width: 40px;
   height: 40px;
   cursor: pointer;
-  transform: scale(1.1);
 
   img {
-    width: 100%;
-    height: 100%;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     transform: scale(1.1);
+    object-fit: cover;
+    transform: scale(1.1);
+    transition: 0.2s ease-out;
   }
 `;
 
