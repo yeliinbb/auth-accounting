@@ -1,16 +1,13 @@
 import styled from 'styled-components';
 import ExpenseListByMonth from '../components/ExpenseListByMonth';
 import Form from '../components/Form';
-import { useLocation } from 'react-router-dom';
 import MonthsNavigation from '../components/MonthsNavigation';
-import HeaderNavigationBar from '../Layout/HeaderNavigationBar';
+import HeaderNavigationBar from '../layouts/Header/HeaderNavigationBar';
 
 const Home = () => {
-  const location = useLocation();
-  const isLoginPage = location.path === '/';
   return (
     <>
-      {!isLoginPage && <HeaderNavigationBar />}
+      <HeaderNavigationBar />
       <StMain>
         <Form />
         <MonthsNavigation />

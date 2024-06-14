@@ -4,7 +4,7 @@ import { expenseApi } from './api';
 export const getExpense = async () => {
   try {
     const response = await expenseApi.get('/expenses');
-    console.log('response', response);
+    // console.log('response', response);
     return response.data;
   } catch (error) {
     toast.warn('지출 데이터를 가져오지 못했습니다.');

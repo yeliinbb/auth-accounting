@@ -1,1 +1,1 @@
-export { login } from "./Login.Styled";
+export { default } from './Login';

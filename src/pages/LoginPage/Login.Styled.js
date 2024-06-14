@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const StForm = styled.div`
+export const StForm = styled.form`
   background-color: #f6f5f4;
   width: 400px;
   padding: 30px;
@@ -11,7 +11,7 @@ export const StForm = styled.div`
   font-size: 20px;
   font-weight: 600;
   border-radius: 15px;
-  h1 {
+  h2 {
     text-align: center;
   }
 `;

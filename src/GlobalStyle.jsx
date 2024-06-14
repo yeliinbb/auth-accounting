@@ -13,7 +13,7 @@ const GlobalStyle = createGlobalStyle`
 
     body {
         width: 100vw;
-        height: 100vh;
+        /* height: 100vh; */
         background-color: #B4C4B1;
         margin: 0 auto;
         padding: 30px;
@@ -41,11 +41,11 @@ const GlobalStyle = createGlobalStyle`
         overflow: visible;
         }
 
-        .ModalOverlay {
+    .ModalOverlay {
             background-color: rgba(0, 0, 0, 0.5);
         }
 
-        .ModalContent {
+    .ModalContent {
             top: 50%;
             left: 50%;
             right: auto;

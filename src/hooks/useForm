@@ -1,0 +1,15 @@
+import { useState } from 'react';
+
+const useForm = (initialState = {}) => {
+  const [formDataState, setFormDataState] = useState(initialState);
+  const onChangeHandler = (event) => {
+    const { name, value } = event.target;
+    setFormDataState((prev) => ({ ...prev, [name]: value }));
+  };
+  const resetForm = () => {
+    setFormDataState(initialState);
+  };
+  return { formDataState, onChangeHandler, resetForm };
+};
+
+export default useForm;

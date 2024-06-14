@@ -1,17 +1,15 @@
 import { useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-
-import { useDispatch, useSelector } from 'react-redux';
-import { updateExpense } from '../redux/slices/expenseSlice';
 import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { deleteExpense, getExpense, putExpense } from '../api/expense';
+import { deleteExpense, getExpense, putExpense } from '../../api/expense';
 import { toast } from 'react-toastify';
 
 const Detail = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const queryClient = useQueryClient();
+  // const queryClient = new QueryClient();
 
   // 데이터 가져오기
   const {
@@ -20,10 +18,14 @@ const Detail = () => {
     error,
     isSuccess,
     refetch
-  } = useQuery({ queryKey: ['expense', id], queryFn: getExpense });
-  console.log(selectedExpense);
-  console.log(error);
-  console.log(isSuccess);
+  } = useQuery({
+    // 고유한 queryKey로 각 id별 데이터를 구분
+    queryKey: ['expense', id],
+    queryFn: getExpense
+  });
+  // console.log(selectedExpense);
+  // console.log(error);
+  // console.log(isSuccess);
   // refetch();
 
   // 기존 데이터 가져와서 각각 defaultValue에 넣어주기
@@ -89,18 +91,22 @@ const Detail = () => {
     }
   }, []);
 
+  if (isLoading) {
+    return <div>데이터를 가져오는 중입니다.</div>;
+  }
+
   return (
     <StDetailSection>
       {isSuccess && (
         <StDetailInputBox>
-          <StDetailLabel htmlFor="detail-date">Date</StDetailLabel>
-          <StDetailInput type="date" id="detail-date" defaultValue={prevData.date} ref={dateRef} />
-          <StDetailLabel htmlFor="detail-item">Item</StDetailLabel>
-          <StDetailInput type="text" id="detail-item" defaultValue={prevData.item} ref={itemRef} />
-          <StDetailLabel htmlFor="detail-amount">Amount</StDetailLabel>
-          <StDetailInput type="number" id="detail-amount" defaultValue={prevData.amount} ref={amountRef} />
-          <StDetailLabel htmlFor="detail-description">Details</StDetailLabel>
-          <StDetailInput type="text" id="detail-description" defaultValue={prevData.description} ref={descriptionRef} />
+          <label htmlFor="detail-date">Date</label>
+          <input type="date" id="detail-date" defaultValue={prevData.date} ref={dateRef} />
+          <label htmlFor="detail-item">Item</label>
+          <input type="text" id="detail-item" defaultValue={prevData.item} ref={itemRef} />
+          <label htmlFor="detail-amount">Amount</label>
+          <input type="number" id="detail-amount" defaultValue={prevData.amount} ref={amountRef} />
+          <label htmlFor="detail-description">Details</label>
+          <input type="text" id="detail-description" defaultValue={prevData.description} ref={descriptionRef} />
         </StDetailInputBox>
       )}
       <StDetailBtnBox>
@@ -137,24 +143,23 @@ const StDetailInputBox = styled.div`
   flex-direction: column;
   justify-content: center;
   gap: 5px;
-`;
 
-const StDetailLabel = styled.label`
-  font-size: 18px;
-  font-weight: 600;
-`;
+  label {
+    font-size: 18px;
+    font-weight: 600;
+  }
 
-const StDetailInput = styled.input`
-  border: 1.5px solid rgba(94, 94, 94, 0.3);
-  width: 100%;
-  height: 40px;
-  border-radius: 5px;
-  padding: 0px 7px;
-  box-sizing: border-box;
-  color: rgba(0, 0, 0, 0.4);
-  margin-bottom: 10px;
-
-  ::placeholder {
+  input {
+    border: 1.5px solid rgba(94, 94, 94, 0.3);
+    width: 100%;
+    height: 40px;
+    border-radius: 5px;
+    padding: 0px 7px;
+    box-sizing: border-box;
+    color: rgba(0, 0, 0, 0.4);
+    margin-bottom: 10px;
+  }
+  input::placeholder {
     color: rgba(0, 0, 0, 0.2);
     align-content: center;
   }

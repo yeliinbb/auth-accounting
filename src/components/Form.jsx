@@ -10,6 +10,7 @@ const Form = () => {
   const monthFiltered = useSelector((state) => state.monthFiltered);
   const user = useSelector((state) => state.user.user);
   const queryClient = useQueryClient();
+  // const queryClient = new QueryClient();
   const navigate = useNavigate();
 
   const mutation = useMutation({
