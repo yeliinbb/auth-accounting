@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { StForm, StInputBox, StBtnBox, StInputField, StLoginBtn, StSignUpBtn } from './Login.Styled';
+import { StForm, StInputBox, StInputField, StLoginBox } from './Login.Styled';
 import { faFingerprint, faUnlock } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
@@ -102,21 +102,12 @@ const Login = () => {
             />
           </StInputBox>
         )}
-        {isLoginForm ? (
-          <StBtnBox>
-            <StLoginBtn type="submit">Login</StLoginBtn>
-            <StSignUpBtn type="submit" onClick={toggleForm}>
-              Sign up
-            </StSignUpBtn>
-          </StBtnBox>
-        ) : (
-          <StBtnBox>
-            <StLoginBtn type="submit" onClick={toggleForm}>
-              Login
-            </StLoginBtn>
-            <StSignUpBtn type="submit">Sign up</StSignUpBtn>
-          </StBtnBox>
-        )}
+        <StLoginBox>
+          <button>{isLoginForm ? 'Login' : 'Sign up'}</button>
+          <div onClick={toggleForm}>
+            <span>{isLoginForm ? 'Move to Sign up' : 'Move to Login'}</span>
+          </div>
+        </StLoginBox>
       </StForm>
     </div>
   );

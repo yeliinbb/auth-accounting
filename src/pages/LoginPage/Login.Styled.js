@@ -13,6 +13,7 @@ export const StForm = styled.form`
   border-radius: 15px;
   h2 {
     text-align: center;
+    margin-bottom: 10px;
   }
 `;
 
@@ -46,40 +47,53 @@ export const StInputField = styled.input`
   }
 `;
 
-export const StBtnBox = styled.div`
+export const StLoginBox = styled.div`
   width: 200;
   display: flex;
   flex-direction: column;
   gap: 10px;
   align-items: center;
-`;
-
-export const StLoginBtn = styled.button`
-  width: 100%;
-  height: 40px;
-  font-size: 15px;
-  border-radius: 50px;
-  background-color: #78866b;
-  color: white;
-  /* margin-top: 15px; */
-  cursor: pointer;
-  &:hover {
-    opacity: 0.8;
-    transition: 0.15s;
+  div {
+    width: 100%;
+    height: 45px;
+    font-size: 15px;
+    text-align: center;
+    border-radius: 50px;
+    background-color: #d6d6d6;
+    /* border: 1.2px solid #474845; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    &:hover {
+      /* opacity: 0.8; */
+      /* transition: 0.15s; */
+      /* background-color: #474845; */
+      box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1);
+      /* border: 1px solid #474845; */
+    }
+    span {
+      font-size: 15px;
+      /* color: white; */
+      width: 100%;
+      &:hover {
+        /* color: white; */
+      }
+    }
   }
-`;
-
-export const StSignUpBtn = styled.button`
-  width: 100%;
-  height: 40px;
-  font-size: 15px;
-  border-radius: 50px;
-  background-color: #474845;
-  color: white;
-  /* margin-top: 15px; */
-  cursor: pointer;
-  &:hover {
-    opacity: 0.8;
-    transition: 0.15s;
+  button {
+    width: 100%;
+    height: 45px;
+    font-size: 15px;
+    border-radius: 50px;
+    background-color: #78866b;
+    color: white;
+    margin-top: 10px;
+    cursor: pointer;
+    &:hover {
+      /* opacity: 0.8;
+      transition: 0.15s; */
+      box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1);
+    }
   }
 `;
