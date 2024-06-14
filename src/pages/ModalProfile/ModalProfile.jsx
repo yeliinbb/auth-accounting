@@ -90,8 +90,9 @@ const ModalProfile = () => {
       }}
     >
       <StModalBox>
+        <h2>[ Update Your Profile ]</h2>
         <StModalInputBox>
-          <label htmlFor="profile-nickname">Change your nickname</label>
+          <label htmlFor="profile-nickname">Nickname</label>
           <StModalInputField
             id="profile-nickname"
             type="text"
@@ -101,7 +102,7 @@ const ModalProfile = () => {
           />
         </StModalInputBox>
         <StModalInputBox>
-          <p>Update Profile</p>
+          <p>Profile image</p>
           <StModalImg src={avatar ? avatar : user.avatar} alt="프로필 이미지" />
           <StModalImgInputLabel htmlFor="profile-img">Upload Image</StModalImgInputLabel>
           <StModalImgInputField

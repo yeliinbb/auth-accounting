@@ -6,6 +6,11 @@ export const StModalBox = styled.div`
   justify-content: center;
   gap: 20px;
   font-weight: 600;
+  h2 {
+    font-size: 27px;
+    margin-bottom: 5px;
+    /* text-align: center; */
+  }
 `;
 
 export const StModalInputBox = styled.div`
