@@ -37,9 +37,9 @@ export const StModalInputField = styled.input`
 `;
 
 export const StModalImgInputLabel = styled.label`
-  width: 100px;
+  /* width: 100px; */
   font-size: 15px;
-  padding: 5px;
+  padding: 5px 8px;
   background-color: transparent;
   border: 1px solid black;
   border-radius: 5px;

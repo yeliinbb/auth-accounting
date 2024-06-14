@@ -7,6 +7,9 @@ import { useEffect } from 'react';
 import { getUserInfo } from '../../api/auth';
 import { setUser } from '../../redux/slices/userSlice';
 import { StHeader, StHeaderBox, StHeaderBtn, StHeaderImg, StSpan } from './HeaderNavigationBar.Styled';
+import { logoutHandler } from '../../redux/slices/authSlice';
+import { useQuery } from '@tanstack/react-query';
+import { queryKeys } from '../../api/api';
 
 const HeaderNavigationBar = () => {
   const navigate = useNavigate();
@@ -14,8 +17,6 @@ const HeaderNavigationBar = () => {
   const handleOpen = () => {
     dispatch(openModal());
   };
-
-  const user = useSelector((state) => state.user.user);
 
   // 로그인 여부를 확인하는 로직
   useEffect(() => {
@@ -35,32 +36,36 @@ const HeaderNavigationBar = () => {
         handleLogout();
       }
     });
-  }, [user.avatar]);
+  }, [dispatch]);
 
   const handleLogout = () => {
+    dispatch(logoutHandler());
     dispatch(setUser(null));
-    navigate('/');
     localStorage.clear();
   };
 
-  // console.log('user 정보 확인', user);
-  const accessToken = localStorage.getItem('accessToken');
+  const { data: userInfo } = useQuery({
+    queryKey: [queryKeys.users],
+    queryFn: getUserInfo
+  });
+
+  console.log('userInfo => ', userInfo);
 
   return (
     <StHeader>
       <StHeaderBox>
         <h1>ACCOUNTING BOOK</h1>
       </StHeaderBox>
-      {user && (
+      {userInfo && (
         <StHeaderBox>
           <Link to="/home">
             <StSpan>HOME</StSpan>
           </Link>
           <Modal />
           <StSpan onClick={handleOpen}>My Profile</StSpan>
-          <StHeaderImg src={accessToken ? user.avatar : defaultImg} />
+          <StHeaderImg src={userInfo.avatar ? userInfo.avatar : defaultImg} />
           {/* <StHeaderImg src={user.avatar} /> */}
-          <span>{user.nickname}</span>
+          <span>{userInfo.nickname}</span>
           <StHeaderBtn onClick={handleLogout}>Logout</StHeaderBtn>
         </StHeaderBox>
       )}

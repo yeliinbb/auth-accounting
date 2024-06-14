@@ -1,6 +1,6 @@
 import GlobalStyle from './GlobalStyle';
 import { RouterProvider } from 'react-router-dom';
-import router from './router/router';
+import Router from './router/Router';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ReactModal from 'react-modal';
@@ -12,7 +12,8 @@ const App = () => {
     <>
       <GlobalStyle />
       <ToastContainer closeOnClick position="top-right" autoClose={3000} hideProgressBar={true} limit={1} />
-      <RouterProvider router={router} />
+      {/* <RouterProvider router={router} /> */}
+      <Router />
     </>
   );
 };

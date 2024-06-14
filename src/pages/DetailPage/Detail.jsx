@@ -4,11 +4,14 @@ import { deleteExpense, getExpense, putExpense } from '../../api/expense';
 import { toast } from 'react-toastify';
 import { StDetailBtn, StDetailBtnBox, StDetailInputBox, StDetailSection } from './Detail.Styled';
 import useForm from '../../hooks/useForm';
+import { queryKeys } from '../../api/api';
 
 const Detail = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const queryClient = useQueryClient();
+
+  // console.log('queryKeys => ', queryKeys);
 
   // 데이터 가져오기
   const {
@@ -18,7 +21,7 @@ const Detail = () => {
     isSuccess,
     refetch
   } = useQuery({
-    queryKey: ['expense'],
+    queryKey: [queryKeys.expenses],
     queryFn: getExpense
   });
   // console.log(selectedExpense);
@@ -34,14 +37,14 @@ const Detail = () => {
     mutationFn: putExpense,
     onSuccess: () => {
       navigate('/home');
-      queryClient.invalidateQueries(['expense']);
+      queryClient.invalidateQueries([queryKeys.expenses]);
     }
   });
 
   const mutationDelete = useMutation({
     mutationFn: deleteExpense,
     onSuccess: () => {
-      queryClient.invalidateQueries(['expense']);
+      queryClient.invalidateQueries([queryKeys.expenses]);
     }
   });
 

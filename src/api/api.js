@@ -7,3 +7,8 @@ export const authApi = axios.create({
 export const expenseApi = axios.create({
   baseURL: 'https://innovative-petalite-ton.glitch.me'
 });
+
+export const queryKeys = {
+  expenses: 'expenses',
+  users: 'users'
+};

@@ -1,15 +1,18 @@
 import { toast } from 'react-toastify';
 import { authApi } from './api';
+import defaultImg from '../assets/default-profile.jpg';
 
-export const register = async ({ id, password, nickname }) => {
+export const register = async ({ id, password, nickname, avatar }) => {
+  console.log(avatar);
   try {
     const response = await authApi.post('/register', {
       id: id,
       password: password,
-      nickname: nickname
+      nickname: nickname,
+      avatar: avatar
     });
     // console.log('회원가입 response 확인', response);
-    // console.log('회원가입 데이터 확인', response.data);
+    console.log('회원가입 데이터 확인', response.data);
     return response.data;
   } catch (error) {
     console.log(error?.response?.data?.message);
@@ -23,8 +26,11 @@ export const login = async ({ id, password }) => {
       id: id,
       password: password
     });
-    // console.log('로그인 데이터 확인', response.data);
+    console.log('로그인 데이터 확인', response.data);
     localStorage.setItem('accessToken', response.data.accessToken);
+    // const newData = { ...response.data, avatar: defaultImg };
+    // console.log('newData => ', newData);
+    // return newData;
     return response.data;
   } catch (error) {
     console.log(error?.response?.data?.message);

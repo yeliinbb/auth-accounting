@@ -1,15 +1,22 @@
 import styled from 'styled-components';
 import Expense from './Expense';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useQuery } from '@tanstack/react-query';
 import { getExpense } from '../api/expense';
+import { queryKeys } from '../api/api';
 
 const ExpenseListByMonth = () => {
   const monthFiltered = useSelector((state) => state.monthFiltered);
-  const dispatch = useDispatch();
 
   // 데이터 가져오기
-  const { data: expense = [], isLoading, error } = useQuery({ queryKey: ['expense'], queryFn: getExpense });
+  const {
+    data: expense = [],
+    isLoading,
+    error
+  } = useQuery({
+    queryKey: [queryKeys.expenses],
+    queryFn: getExpense
+  });
 
   // console.log('expense => ', expense);
 

@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { closeModal } from '../../redux/slices/modalSlice';
 import ReactModal from 'react-modal';
-import { updateProfile } from '../../api/auth';
+import { getUserInfo, updateProfile } from '../../api/auth';
 import { useRef, useState } from 'react';
 import { setUser } from '../../redux/slices/userSlice';
 import {
@@ -14,6 +14,8 @@ import {
   StModalImgInputLabel
 } from './ModalProfile.Styled';
 import { toast } from 'react-toastify';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { queryKeys } from '../../api/api';
 
 const ModalProfile = () => {
   const [nickname, setNickname] = useState('');
@@ -21,30 +23,46 @@ const ModalProfile = () => {
   const isOpen = useSelector((state) => state.modal.isOpen);
   const user = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
-  const imgRef = useRef();
+  const imgRef = useRef(null);
 
   const handleClose = () => {
     dispatch(closeModal());
   };
 
+  const queryClient = useQueryClient();
+
+  const profileUpdate = useMutation({
+    mutationFn: updateProfile,
+    onSuccess: () => {
+      queryClient.invalidateQueries([queryKeys.users]);
+    }
+  });
+
   const handleUpdateProfile = async () => {
     const formData = new FormData();
     // console.log(formData);
     formData.append('nickname', nickname);
-    formData.append('avatar', avatar);
+    formData.append('avatar', imgRef.current.files[0]);
+    console.log(avatar);
+    console.log(formData);
     const response = await updateProfile(formData);
-    // console.log('response : 프로필 업데이트 성공', response);
+    console.log('response : 프로필 업데이트 성공', response);
+    // if (response.success) {
+    //   dispatch(
+    //     setUser({
+    //       ...user,
+    //       nickname: response.nickname,
+    //       avatar: response.avatar
+    //     })
+    //   );
+    //   toast.success('프로필 업데이트가 완료되었습니다.');
+    // }
+
     if (response.success) {
-      dispatch(
-        setUser({
-          ...user,
-          nickname: response.nickname,
-          avatar: response.avatar
-        })
-      );
+      profileUpdate.mutate(formData);
       toast.success('프로필 업데이트가 완료되었습니다.');
+      handleClose();
     }
-    handleClose();
   };
 
   const saveImgFileHandler = () => {
@@ -61,6 +79,11 @@ const ModalProfile = () => {
     setAvatar(null);
     handleClose();
   };
+
+  const { data: userInfo } = useQuery({
+    queryKey: [queryKeys.users],
+    queryFn: getUserInfo
+  });
 
   return (
     <ReactModal
@@ -103,7 +126,7 @@ const ModalProfile = () => {
         </StModalInputBox>
         <StModalInputBox>
           <p>Profile image</p>
-          <StModalImg src={avatar ? avatar : user.avatar} alt="프로필 이미지" />
+          <StModalImg src={avatar ? avatar : userInfo.avatar} alt="프로필 이미지" />
           <StModalImgInputLabel htmlFor="profile-img">Upload Image</StModalImgInputLabel>
           <StModalImgInputField
             type="file"
