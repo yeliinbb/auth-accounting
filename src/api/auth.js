@@ -8,9 +8,8 @@ export const register = async ({ id, password, nickname }) => {
       password: password,
       nickname: nickname
     });
-    // console.log(id, password, nickname);
-    console.log('회원가입 response 확인', response);
-    console.log('회원가입 데이터 확인', response.data);
+    // console.log('회원가입 response 확인', response);
+    // console.log('회원가입 데이터 확인', response.data);
     return response.data;
   } catch (error) {
     console.log(error?.response?.data?.message);
@@ -24,7 +23,7 @@ export const login = async ({ id, password }) => {
       id: id,
       password: password
     });
-    console.log('로그인 데이터 확인', response.data);
+    // console.log('로그인 데이터 확인', response.data);
     localStorage.setItem('accessToken', response.data.accessToken);
     return response.data;
   } catch (error) {
@@ -52,7 +51,7 @@ export const getUserInfo = async () => {
 };
 
 export const updateProfile = async (formData) => {
-  console.log(formData);
+  // console.log(formData);
   const accessToken = localStorage.getItem('accessToken');
   if (accessToken) {
     try {

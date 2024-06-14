@@ -35,7 +35,7 @@ const HeaderNavigationBar = () => {
         handleLogout();
       }
     });
-  }, []);
+  }, [user.avatar]);
 
   const handleLogout = () => {
     dispatch(setUser(null));
@@ -44,6 +44,7 @@ const HeaderNavigationBar = () => {
   };
 
   // console.log('user 정보 확인', user);
+  const accessToken = localStorage.getItem('accessToken');
 
   return (
     <StHeader>
@@ -57,7 +58,7 @@ const HeaderNavigationBar = () => {
           </Link>
           <Modal />
           <StSpan onClick={handleOpen}>My Profile</StSpan>
-          <StHeaderImg src={user.avatar ? user.avatar : defaultImg} />
+          <StHeaderImg src={accessToken ? user.avatar : defaultImg} />
           {/* <StHeaderImg src={user.avatar} /> */}
           <span>{user.nickname}</span>
           <StHeaderBtn onClick={handleLogout}>Logout</StHeaderBtn>

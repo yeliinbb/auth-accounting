@@ -12,6 +12,7 @@ import {
   StModalInputBox,
   StModalInputField
 } from './ModalProfile.Styled';
+import { toast } from 'react-toastify';
 
 const ModalProfile = () => {
   const [nickname, setNickname] = useState('');
@@ -39,6 +40,7 @@ const ModalProfile = () => {
           avatar: response.avatar
         })
       );
+      toast.success('프로필 업데이트가 완료되었습니다.');
     }
     handleClose();
   };
