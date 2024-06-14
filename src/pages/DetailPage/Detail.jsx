@@ -18,8 +18,7 @@ const Detail = () => {
     isSuccess,
     refetch
   } = useQuery({
-    // 고유한 queryKey로 각 id별 데이터를 구분
-    queryKey: ['expense', id],
+    queryKey: ['expense'],
     queryFn: getExpense
   });
   // console.log(selectedExpense);
@@ -56,6 +55,11 @@ const Detail = () => {
   const { date, item, amount, description } = formDataState;
 
   const expenseUpdate = () => {
+    if (amount <= 0) {
+      toast.warn('유효한 금액을 입력해주세요.');
+      return;
+    }
+
     const updatedList = {
       id: id,
       date: date,
@@ -73,18 +77,11 @@ const Detail = () => {
     if (confirm('정말로 이 항목을 삭제하시겠습니까?')) {
       console.log(id);
       mutationDelete.mutate(prevData.id);
-      localStorage.getItem('filteredByMonth');
       navigate('/home');
     } else {
       toast.warn('삭제가 취소되었습니다.');
     }
   };
-
-  // useEffect(() => {
-  //   if (isSuccess) {
-  //     dateRef.current.focus();
-  //   }
-  // }, []);
 
   if (isLoading) {
     return <div>데이터를 가져오는 중입니다.</div>;

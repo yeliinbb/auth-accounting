@@ -26,11 +26,11 @@ const ModalProfile = () => {
 
   const handleUpdateProfile = async () => {
     const formData = new FormData();
-    console.log(formData);
+    // console.log(formData);
     formData.append('nickname', nickname);
     formData.append('avatar', avatar);
     const response = await updateProfile(formData);
-    console.log('response : 프로필 업데이트 성공', response);
+    // console.log('response : 프로필 업데이트 성공', response);
     if (response.success) {
       dispatch(
         setUser({
@@ -72,7 +72,7 @@ const ModalProfile = () => {
     >
       <StModalBox>
         <StModalInputBox>
-          <label htmlFor="profile-nickname">Change your username</label>
+          <label htmlFor="profile-nickname">Change your nickname</label>
           <StModalInputField
             id="profile-nickname"
             type="text"
