@@ -68,15 +68,14 @@ const Detail = () => {
       description: description
     };
 
-    console.log(updatedList);
+    // console.log(updatedList);
     mutationEdit.mutate(updatedList);
     toast.success('수정이 완료되었습니다.');
   };
 
   const expenseDelete = () => {
     if (confirm('정말로 이 항목을 삭제하시겠습니까?')) {
-      console.log(id);
-      mutationDelete.mutate(prevData.id);
+      mutationDelete.mutate(id);
       navigate('/home');
     } else {
       toast.warn('삭제가 취소되었습니다.');
