@@ -1,7 +1,12 @@
 import { toast } from 'react-toastify';
 import { expenseApi } from './api';
 
+const accessToken = localStorage.getItem('accessToken');
+
 export const getExpense = async () => {
+  if (!accessToken) {
+    return;
+  }
   try {
     const response = await expenseApi.get('/expenses');
     // console.log('response', response);
