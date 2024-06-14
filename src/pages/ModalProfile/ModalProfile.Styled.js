@@ -31,31 +31,60 @@ export const StModalInputField = styled.input`
   }
 `;
 
+export const StModalImgInputLabel = styled.label`
+  width: 100px;
+  font-size: 15px;
+  padding: 5px;
+  background-color: transparent;
+  border: 1px solid black;
+  border-radius: 5px;
+  color: black;
+  cursor: pointer;
+  align-self: center;
+  &:hover {
+    background-color: white;
+  }
+`;
+
 export const StModalImgInputField = styled.input`
-  /* background-color: white; */
-  /* width: 100%; */
   height: 40px;
   border: none;
-  /* border-radius: 20px; */
-  /* padding: 15px; */
-  /* align-self: center; */
+  width: 0;
+  height: 0;
+  opacity: 0;
   ::-webkit-file-upload-button {
     cursor: pointer;
     background-color: black;
   }
 `;
 
-export const StModalBtn = styled.button`
-  width: 100%;
-  height: 40px;
-  font-size: 15px;
-  border-radius: 50px;
-  background-color: #78866b;
-  color: white;
-  /* margin-top: 15px; */
-  cursor: pointer;
-  &:hover {
-    opacity: 0.8;
-    transition: 0.15s;
+export const StModalImg = styled.img`
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  align-self: center;
+  border-radius: 50%;
+`;
+
+export const StModalBtnBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  button {
+    width: 100%;
+    height: 40px;
+    font-size: 15px;
+    border-radius: 50px;
+    background-color: #78866b;
+    color: white;
+    /* margin-top: 15px; */
+    cursor: pointer;
+    &:hover {
+      opacity: 0.8;
+      transition: 0.15s;
+    }
+  }
+  button:last-child {
+    background-color: #b2b2b2;
   }
 `;

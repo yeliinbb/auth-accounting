@@ -1,16 +1,17 @@
-import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeModal } from '../../redux/slices/modalSlice';
 import ReactModal from 'react-modal';
 import { updateProfile } from '../../api/auth';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { setUser } from '../../redux/slices/userSlice';
 import {
   StModalBox,
-  StModalBtn,
+  StModalImg,
   StModalImgInputField,
   StModalInputBox,
-  StModalInputField
+  StModalInputField,
+  StModalBtnBox,
+  StModalImgInputLabel
 } from './ModalProfile.Styled';
 import { toast } from 'react-toastify';
 
@@ -20,6 +21,7 @@ const ModalProfile = () => {
   const isOpen = useSelector((state) => state.modal.isOpen);
   const user = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
+  const imgRef = useRef();
 
   const handleClose = () => {
     dispatch(closeModal());
@@ -42,6 +44,21 @@ const ModalProfile = () => {
       );
       toast.success('프로필 업데이트가 완료되었습니다.');
     }
+    handleClose();
+  };
+
+  const saveImgFileHandler = () => {
+    const file = imgRef.current.files[0];
+    // 이미지 미리보기 FileReader API
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setAvatar(reader.result);
+    };
+  };
+
+  const cancelBtnHandler = () => {
+    setAvatar(null);
     handleClose();
   };
 
@@ -84,15 +101,22 @@ const ModalProfile = () => {
           />
         </StModalInputBox>
         <StModalInputBox>
-          <label htmlFor="profile-img">Profile Image</label>
+          <p>Profile Image</p>
+          <StModalImg src={avatar ? avatar : user.avatar} alt="프로필 이미지" />
+          <StModalImgInputLabel htmlFor="profile-img">Upload Image</StModalImgInputLabel>
           <StModalImgInputField
             type="file"
             accept="image/*"
             id="profile-img"
-            onChange={(e) => setAvatar(e.target.files[0])}
+            onChange={saveImgFileHandler}
+            ref={imgRef}
           />
         </StModalInputBox>
-        <StModalBtn onClick={handleUpdateProfile}>Update Profile</StModalBtn>
+
+        <StModalBtnBox>
+          <button onClick={handleUpdateProfile}>Update Profile</button>
+          <button onClick={cancelBtnHandler}>Cancel</button>
+        </StModalBtnBox>
       </StModalBox>
     </ReactModal>
   );
