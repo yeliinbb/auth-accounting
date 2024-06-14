@@ -68,7 +68,7 @@ export const StModalImg = styled.img`
 
 export const StModalBtnBox = styled.div`
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
   gap: 10px;
   button {
     width: 100%;

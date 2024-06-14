@@ -101,7 +101,7 @@ const ModalProfile = () => {
           />
         </StModalInputBox>
         <StModalInputBox>
-          <p>Profile Image</p>
+          <p>Update Profile</p>
           <StModalImg src={avatar ? avatar : user.avatar} alt="프로필 이미지" />
           <StModalImgInputLabel htmlFor="profile-img">Upload Image</StModalImgInputLabel>
           <StModalImgInputField
@@ -114,7 +114,7 @@ const ModalProfile = () => {
         </StModalInputBox>
 
         <StModalBtnBox>
-          <button onClick={handleUpdateProfile}>Update Profile</button>
+          <button onClick={handleUpdateProfile}>Confirm</button>
           <button onClick={cancelBtnHandler}>Cancel</button>
         </StModalBtnBox>
       </StModalBox>
