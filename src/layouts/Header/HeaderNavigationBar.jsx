@@ -21,7 +21,7 @@ const HeaderNavigationBar = () => {
   useEffect(() => {
     // 액세스토큰이 있다면 회원 정보 불러오고
     getUserInfo().then((response) => {
-      console.log('현재 로그인 된 유저가 있나요?', response);
+      // console.log('현재 로그인 된 유저가 있나요?', response);
       if (response) {
         // user 상테에 업데이트 해주기
         dispatch(
@@ -43,7 +43,7 @@ const HeaderNavigationBar = () => {
     localStorage.clear();
   };
 
-  console.log('user 정보 확인', user);
+  // console.log('user 정보 확인', user);
 
   return (
     <StHeader>

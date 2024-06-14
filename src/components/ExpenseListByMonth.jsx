@@ -11,7 +11,7 @@ const ExpenseListByMonth = () => {
   // 데이터 가져오기
   const { data: expense = [], isLoading, error } = useQuery({ queryKey: ['expense'], queryFn: getExpense });
 
-  console.log('expense => ', expense);
+  // console.log('expense => ', expense);
 
   // 저장된 데이터 중에서 선택한 달과 맞는 데이터 가져오기 -> getMonth()
   const filtered = expense.filter((expense) => new Date(expense.date).getMonth() === monthFiltered);
