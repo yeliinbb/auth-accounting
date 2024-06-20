@@ -21,7 +21,7 @@ const ModalProfile = () => {
   const [nickname, setNickname] = useState('');
   const [avatar, setAvatar] = useState(null);
   const isOpen = useSelector((state) => state.modal.isOpen);
-  const user = useSelector((state) => state.user.user);
+  // const user = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
   const imgRef = useRef(null);
 
@@ -43,10 +43,10 @@ const ModalProfile = () => {
     // console.log(formData);
     formData.append('nickname', nickname);
     formData.append('avatar', imgRef.current.files[0]);
-    console.log(avatar);
+    // console.log(avatar);
     console.log(formData);
-    const response = await updateProfile(formData);
-    console.log('response : 프로필 업데이트 성공', response);
+    // const response = await updateProfile(formData);
+    // console.log('response : 프로필 업데이트 성공', response);
     // if (response.success) {
     //   dispatch(
     //     setUser({
@@ -58,11 +58,15 @@ const ModalProfile = () => {
     //   toast.success('프로필 업데이트가 완료되었습니다.');
     // }
 
-    if (response.success) {
-      profileUpdate.mutate(formData);
-      toast.success('프로필 업데이트가 완료되었습니다.');
-      handleClose();
-    }
+    profileUpdate.mutate(formData);
+    toast.success('프로필 업데이트가 완료되었습니다.');
+    handleClose();
+
+    // if (response.success) {
+    //   profileUpdate.mutate(formData);
+    //   toast.success('프로필 업데이트가 완료되었습니다.');
+    //   handleClose();
+    // }
   };
 
   const saveImgFileHandler = () => {

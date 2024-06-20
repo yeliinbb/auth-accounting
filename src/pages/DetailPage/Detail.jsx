@@ -21,7 +21,8 @@ const Detail = () => {
     isSuccess,
     refetch
   } = useQuery({
-    queryKey: [queryKeys.expenses],
+    // queryKey: [queryKeys.expenses],
+    queryKey: [queryKeys.expenses, id], // 이렇게 관리 필요.. 이럴 경우 find 매서드 사용할 필요 없음.
     queryFn: getExpense
   });
   // console.log(selectedExpense);
@@ -30,13 +31,15 @@ const Detail = () => {
   // refetch();
 
   // 기존 데이터 가져와서 각각 defaultValue에 넣어주기
-  const prevData = isSuccess ? selectedExpense.find((item) => item.id === id) : {};
+  // const prevData = isSuccess ? selectedExpense.find((item) => item.id === id) : {};
   // console.log(prevData);
 
   const mutationEdit = useMutation({
     mutationFn: putExpense,
     onSuccess: () => {
       navigate('/home');
+      // 데이터를 다시 받아와서 상태를 다시 업데이트를 해주는 거기 때문에
+      // id를 쿼리키에 넣어줄 필요는 없다.
       queryClient.invalidateQueries([queryKeys.expenses]);
     }
   });
@@ -49,10 +52,10 @@ const Detail = () => {
   });
 
   const { formDataState, onChangeHandler } = useForm({
-    date: prevData.date,
-    item: prevData.item,
-    amount: prevData.amount,
-    description: prevData.description
+    date: selectedExpense.date,
+    item: selectedExpense.item,
+    amount: selectedExpense.amount,
+    description: selectedExpense.description
   });
 
   const { date, item, amount, description } = formDataState;
