@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import { setUser } from '../../redux/slices/userSlice';
 import { login, register } from '../../api/auth';
 import defaultImg from '../../assets/default-profile.jpg';
-import useForm from '../../hooks/useForm';
+import { useForm } from '../../hooks/useForm';
 import { loginHandler } from '../../redux/slices/authSlice';
 
 const Login = () => {
@@ -25,7 +25,7 @@ const Login = () => {
     id: '',
     password: '',
     nickname: '',
-    profileImg: ''
+    profileImg: '',
   });
   const { id, password, nickname, profileImg } = formDataState;
   // 패스워드랑 아이디 스트링화
@@ -68,10 +68,10 @@ const Login = () => {
     const {
       userId,
       nickname,
-      avatar = defaultAvatar
+      avatar = defaultAvatar,
     } = await login({
       id: id,
-      password: password
+      password: password,
       // avatar: profileImg
     });
 
@@ -99,7 +99,13 @@ const Login = () => {
         {isLoginForm ? <h2>Login</h2> : <h2>Sign Up</h2>}
         <StInputBox>
           <FontAwesomeIcon icon={faFingerprint} />
-          <StInputField type="text" placeholder="id" onChange={onChangeHandler} name="id" value={id} />
+          <StInputField
+            type="text"
+            placeholder="id"
+            onChange={onChangeHandler}
+            name="id"
+            value={id}
+          />
           {/* <StInputField type="text" placeholder="id" ref={idRef} /> */}
         </StInputBox>
         <StInputBox>

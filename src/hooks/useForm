@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 
 // useRef 사용하는 hook으로 변경
-const useForm = (initialState = {}) => {
+export const useForm = (initialState = {}) => {
   const [formDataState, setFormDataState] = useState(initialState);
   const onChangeHandler = (event) => {
     const { name, value } = event.target;
@@ -12,8 +12,6 @@ const useForm = (initialState = {}) => {
   };
   return { formDataState, setFormDataState, onChangeHandler, resetForm };
 };
-
-export default useForm;
 
 export const useFormRef = (initialState = {}) => {
   const [formDataState, setFormDataState] = useState(initialState);
@@ -48,6 +46,7 @@ export const useFormRef = (initialState = {}) => {
     }, []);
   };
   return {
+    formRefs,
     formDataState,
     setFormDataState,
     onChangeHandler,
