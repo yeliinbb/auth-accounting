@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
+// useRef 사용하는 hook으로 변경
 const useForm = (initialState = {}) => {
   const [formDataState, setFormDataState] = useState(initialState);
   const onChangeHandler = (event) => {
@@ -9,7 +10,48 @@ const useForm = (initialState = {}) => {
   const resetForm = () => {
     setFormDataState(initialState);
   };
-  return { formDataState, onChangeHandler, resetForm };
+  return { formDataState, setFormDataState, onChangeHandler, resetForm };
 };
 
 export default useForm;
+
+export const useFormRef = (initialState = {}) => {
+  const [formDataState, setFormDataState] = useState(initialState);
+  const formRefs = useRef({});
+
+  // useRef에 값 할당하는 로직
+  Object.keys(initialState).forEach((key) => {
+    if (!formRefs.current[key]) {
+      formRefs.current[key] = { value: initialState[key] };
+    }
+  });
+
+  // onChange로 state에 입력값 넣어주는 로직
+  const onChangeHandler = (event) => {
+    const { name, value } = event.target;
+    formRefs.current[name].value = value;
+    setFormDataState((prev) => [{ ...prev, [name]: value }]);
+  };
+
+  // resetForm
+  const resetForm = () => {
+    Object.keys(initialState).forEach((key) => {
+      formRefs.current[key].value = initialState[key];
+    });
+    setFormDataState(initialState);
+  };
+  // getFormData
+  const getFormData = () => {
+    Object.keys(initialState).reduce((data, key) => {
+      data[key] = formRefs.current[key].value;
+      return data;
+    }, []);
+  };
+  return {
+    formDataState,
+    setFormDataState,
+    onChangeHandler,
+    resetForm,
+    getFormData,
+  };
+};

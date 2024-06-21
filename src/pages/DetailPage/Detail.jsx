@@ -1,10 +1,16 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { deleteExpense, getExpense, putExpense } from '../../api/expense';
+import { deleteExpense, getExpenses, putExpense } from '../../api/expense';
 import { toast } from 'react-toastify';
-import { StDetailBtn, StDetailBtnBox, StDetailInputBox, StDetailSection } from './Detail.Styled';
+import {
+  StDetailBtn,
+  StDetailBtnBox,
+  StDetailInputBox,
+  StDetailSection,
+} from './Detail.Styled';
 import useForm from '../../hooks/useForm';
 import { queryKeys } from '../../api/api';
+import { useEffect } from 'react';
 
 const Detail = () => {
   const navigate = useNavigate();
@@ -16,23 +22,23 @@ const Detail = () => {
   // 데이터 가져오기
   const {
     data: selectedExpense,
-    isLoading,
+    isPending,
     error,
     isSuccess,
-    refetch
+    refetch,
   } = useQuery({
-    // queryKey: [queryKeys.expenses],
     queryKey: [queryKeys.expenses, id], // 이렇게 관리 필요.. 이럴 경우 find 매서드 사용할 필요 없음.
-    queryFn: getExpense
+    // queryFn: () => getDetailExpense(id),
+    queryFn: async () => {
+      const data = await getExpenses();
+      // console.log('data => ', data);
+      return data.find((item) => item.id === id);
+    },
   });
-  // console.log(selectedExpense);
+  console.log(selectedExpense);
   // console.log(error);
   // console.log(isSuccess);
   // refetch();
-
-  // 기존 데이터 가져와서 각각 defaultValue에 넣어주기
-  // const prevData = isSuccess ? selectedExpense.find((item) => item.id === id) : {};
-  // console.log(prevData);
 
   const mutationEdit = useMutation({
     mutationFn: putExpense,
@@ -41,22 +47,38 @@ const Detail = () => {
       // 데이터를 다시 받아와서 상태를 다시 업데이트를 해주는 거기 때문에
       // id를 쿼리키에 넣어줄 필요는 없다.
       queryClient.invalidateQueries([queryKeys.expenses]);
-    }
+    },
   });
 
   const mutationDelete = useMutation({
     mutationFn: deleteExpense,
     onSuccess: () => {
       queryClient.invalidateQueries([queryKeys.expenses]);
-    }
+    },
   });
 
-  const { formDataState, onChangeHandler } = useForm({
-    date: selectedExpense.date,
-    item: selectedExpense.item,
-    amount: selectedExpense.amount,
-    description: selectedExpense.description
+  // 초기 상태값 세팅
+  const { formDataState, onChangeHandler, setFormDataState } = useForm({
+    date: '',
+    item: '',
+    amount: '',
+    description: '',
   });
+
+  // useQuery가 실행될 떄와 같은 순서로 초기 상태 업데이트 해주기
+  // 의존 배열에 selectedExpense 넣어주어 해당 데이터 상태 업데이트 시에만 리렌더링
+  useEffect(() => {
+    setFormDataState({
+      date: selectedExpense?.date,
+      item: selectedExpense?.item,
+      amount: selectedExpense?.amount,
+      description: selectedExpense?.description,
+    });
+  }, [selectedExpense]);
+
+  if (isPending) {
+    return <div>로딩중 입니다...</div>;
+  }
 
   const { date, item, amount, description } = formDataState;
 
@@ -71,10 +93,9 @@ const Detail = () => {
       date: date,
       item: item,
       amount: Number(amount),
-      description: description
+      description: description,
     };
 
-    // console.log(updatedList);
     mutationEdit.mutate(updatedList);
     toast.success('수정이 완료되었습니다.');
   };
@@ -88,20 +109,34 @@ const Detail = () => {
     }
   };
 
-  if (isLoading) {
-    return <div>데이터를 가져오는 중입니다.</div>;
-  }
-
   return (
     <StDetailSection>
       {isSuccess && (
         <StDetailInputBox>
           <label htmlFor="detail-date">Date</label>
-          <input type="date" id="detail-date" name="date" value={date} onChange={onChangeHandler} />
+          <input
+            type="date"
+            id="detail-date"
+            name="date"
+            value={date}
+            onChange={onChangeHandler}
+          />
           <label htmlFor="detail-item">Item</label>
-          <input type="text" id="detail-item" name="item" value={item} onChange={onChangeHandler} />
+          <input
+            type="text"
+            id="detail-item"
+            name="item"
+            value={item}
+            onChange={onChangeHandler}
+          />
           <label htmlFor="detail-amount">Amount</label>
-          <input type="text" id="detail-amount" name="amount" value={amount} onChange={onChangeHandler} />
+          <input
+            type="text"
+            id="detail-amount"
+            name="amount"
+            value={amount}
+            onChange={onChangeHandler}
+          />
           <label htmlFor="detail-description">Details</label>
           <input
             type="text"

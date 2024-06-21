@@ -6,7 +6,13 @@ import defaultImg from '../../assets/default-profile.jpg';
 import { useEffect } from 'react';
 import { getUserInfo } from '../../api/auth';
 import { setUser } from '../../redux/slices/userSlice';
-import { StHeader, StHeaderBox, StHeaderBtn, StHeaderImg, StSpan } from './HeaderNavigationBar.Styled';
+import {
+  StHeader,
+  StHeaderBox,
+  StHeaderBtn,
+  StHeaderImg,
+  StSpan,
+} from './HeaderNavigationBar.Styled';
 import { logoutHandler } from '../../redux/slices/authSlice';
 import { useQuery } from '@tanstack/react-query';
 import { queryKeys } from '../../api/api';
@@ -29,7 +35,7 @@ const HeaderNavigationBar = () => {
           setUser({
             userId: response.id,
             nickname: response.nickname,
-            avatar: response.avatar
+            avatar: response.avatar,
           })
         );
       } else {
@@ -46,10 +52,10 @@ const HeaderNavigationBar = () => {
 
   const { data: userInfo } = useQuery({
     queryKey: [queryKeys.users],
-    queryFn: getUserInfo
+    queryFn: getUserInfo,
   });
 
-  console.log('userInfo => ', userInfo);
+  // console.log('userInfo => ', userInfo);
 
   return (
     <StHeader>

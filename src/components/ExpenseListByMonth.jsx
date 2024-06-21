@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import Expense from './Expense';
 import { useSelector } from 'react-redux';
 import { useQuery } from '@tanstack/react-query';
-import { getExpense } from '../api/expense';
+import { getExpenses } from '../api/expense';
 import { queryKeys } from '../api/api';
 
 const ExpenseListByMonth = () => {
@@ -11,26 +11,27 @@ const ExpenseListByMonth = () => {
   // 데이터 가져오기
   const {
     data: expense = [],
-    isLoading,
-    error
+    isPending,
+    error,
+    isSuccess,
   } = useQuery({
     queryKey: [queryKeys.expenses],
-    queryFn: getExpense
+    queryFn: async () => {
+      const data = await getExpenses();
+      return data.filter(
+        (expense) => new Date(expense.date).getMonth() === monthFiltered
+      );
+    },
   });
 
-  // console.log('expense => ', expense);
-
-  // 저장된 데이터 중에서 선택한 달과 맞는 데이터 가져오기 -> getMonth()
-  const filtered = expense.filter((expense) => new Date(expense.date).getMonth() === monthFiltered);
-
-  if (isLoading) {
+  if (isPending) {
     return <div>로딩중 입니다.</div>;
   }
 
   return (
     <StUl>
-      {filtered.length > 0 ? (
-        filtered.map((list) => <Expense key={list.id} expense={list} />)
+      {isSuccess ? (
+        expense.map((list) => <Expense key={list.id} expense={list} />)
       ) : (
         <StNoExpenseWrapper>
           <StNoExpenseBox>지출이 없습니다.</StNoExpenseBox>

@@ -41,20 +41,3 @@ const AppRouter = () => {
   return <RouterProvider router={router} />;
 };
 export default AppRouter;
-
-// const Router = () => {
-//   return (
-//     <BrowserRouter>
-//       <Routes>
-//         <Route path="/login" element={<PublicRoute element={<Login />} />} />
-//         <Route path="/" element={<PrivateRoute element={<MainLayout />} />}>
-//           {/* 어차피 자식 컴포넌트로 이동할 때 부모 컴포넌트에서 경로를 거치기 때문에 자식 컴포넌트에는 PrivateRoute를 해줄 필요가 없음. */}
-//           <Route index element={<Home />} />
-//           <Route path="detail/:id" element={<Detail />} />
-//         </Route>
-//       </Routes>
-//     </BrowserRouter>
-//   );
-// };
-
-// export default Router;
