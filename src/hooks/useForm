@@ -40,11 +40,12 @@ export const useFormRef = (initialState = {}) => {
   };
   // getFormData
   const getFormData = () => {
-    Object.keys(initialState).reduce((data, key) => {
+    return Object.keys(initialState).reduce((data, key) => {
       data[key] = formRefs.current[key].value;
       return data;
-    }, []);
+    }, {});
   };
+
   return {
     formRefs,
     formDataState,

@@ -2,37 +2,32 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { StForm, StInputBox, StInputField, StLoginBox } from './Login.Styled';
 import { faFingerprint, faUnlock } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../redux/slices/userSlice';
 import { login, register } from '../../api/auth';
 import defaultImg from '../../assets/default-profile.jpg';
-import { useForm } from '../../hooks/useForm';
+import { useFormRef } from '../../hooks/useForm';
 import { loginHandler } from '../../redux/slices/authSlice';
 
 const Login = () => {
-  console.log('login');
-  const idRef = useRef(null);
-  const passwordRef = useRef(null);
-  const nicknameRef = useRef(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isLoginForm, setIsLoginForm] = useState(true);
 
-  const { formDataState, onChangeHandler, resetForm } = useForm({
-    id: '',
-    password: '',
-    nickname: '',
-    profileImg: '',
-  });
-  const { id, password, nickname, profileImg } = formDataState;
-  // 패스워드랑 아이디 스트링화
+  const idRef = useRef(null);
+  const passwordRef = useRef(null);
+  const nicknameRef = useRef(null);
 
   // 회원가입
   const onSubmitRegister = async (event) => {
     event.preventDefault();
+
+    const id = idRef.current.value;
+    const password = passwordRef.current.value;
+    const nickname = nicknameRef.current.value;
 
     // 유효성 검사
     if (!id || !password || !nickname) {
@@ -49,7 +44,7 @@ const Login = () => {
       return;
     }
 
-    const response = await register({ ...formDataState });
+    const response = await register({ ...getFormData() });
     if (response) {
       setIsLoginForm(true);
       resetForm();
@@ -60,31 +55,20 @@ const Login = () => {
   // 로그인
   const onSubmitLogin = async (event) => {
     event.preventDefault();
-    // console.log(id);
-    // console.log(idRef.current.value);
-    const defaultAvatar =
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZUjRIqKbMtVgLiRq_68xIGAiYPRr_uVBdug&s'; // 기본 이미지 경로 설정
-    console.log('defaultAvatar => ', defaultAvatar);
-    const {
-      userId,
-      nickname,
-      avatar = defaultAvatar,
-    } = await login({
+
+    const id = idRef.current.value;
+    const password = passwordRef.current.value;
+
+    const { userId, nickname, avatar } = await login({
       id: id,
       password: password,
-      // avatar: profileImg
     });
 
     // 이 로직은 작동하지 않는데 왜 그런건지???
     console.log('avatar => ', avatar);
 
-    // const userAvatar = avatar || defaultAvatar; // avatar가 없으면 기본 이미지 사용
-    // dispatch(setUser({ userId, nickname, avatar: userAvatar }));
-
-    // dispatch(setUser({ userId, nickname, avatar }));
     dispatch(loginHandler());
     toast.success('로그인 성공!');
-    console.log('navigate test');
     navigate('/');
   };
 
@@ -99,23 +83,15 @@ const Login = () => {
         {isLoginForm ? <h2>Login</h2> : <h2>Sign Up</h2>}
         <StInputBox>
           <FontAwesomeIcon icon={faFingerprint} />
-          <StInputField
-            type="text"
-            placeholder="id"
-            onChange={onChangeHandler}
-            name="id"
-            value={id}
-          />
-          {/* <StInputField type="text" placeholder="id" ref={idRef} /> */}
+          <StInputField type="text" placeholder="id" name="id" ref={idRef} />
         </StInputBox>
         <StInputBox>
           <FontAwesomeIcon icon={faUnlock} />
           <StInputField
             type="password"
             placeholder="password"
-            onChange={onChangeHandler}
             name="password"
-            value={password}
+            ref={passwordRef}
           />
         </StInputBox>
         {!isLoginForm && (
@@ -124,9 +100,8 @@ const Login = () => {
             <StInputField
               type="text"
               placeholder="nickname"
-              onChange={onChangeHandler}
               name="nickname"
-              value={nickname}
+              ref={nicknameRef}
             />
           </StInputBox>
         )}
