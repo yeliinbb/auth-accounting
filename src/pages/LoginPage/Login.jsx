@@ -47,7 +47,9 @@ const Login = () => {
     const response = await register({ ...getFormData() });
     if (response) {
       setIsLoginForm(true);
-      resetForm();
+      idRef.current.value = '';
+      passwordRef.current.value = '';
+      nicknameRef.current.value = '';
       toast.success('회원가입이 완료되었습니다.');
     }
   };
@@ -63,9 +65,6 @@ const Login = () => {
       id: id,
       password: password,
     });
-
-    // 이 로직은 작동하지 않는데 왜 그런건지???
-    console.log('avatar => ', avatar);
 
     dispatch(loginHandler());
     toast.success('로그인 성공!');
